@@ -5,88 +5,16 @@
 
 
     <div class="col-md-3">
-        {% if currentTime < 20 %}
-            <p>Podaj swój typ</p>
-            <form action="/" method="post">
-                {% csrf_token %}
-
-                <div class="form-group">
-                    <strong>{{ person.personName }}</strong>
-                </div>
-
-                <div class="form-group">
-                    <label for="typ">Twój typ:</label>
-                    <input type="number" class="form-control" id="typ" name="typ" placeholder="Podaj twój typ">
-                </div>
-                <button type="submit" class="btn btn-success">Wyślij</button>
-        {% elif currentTime > 20 %}
-                <p>Koniec czasu na podawanie typów. Zapraszamy już jutro od 00:00 do 9:59.</p>
-        {% endif %}
-            </form>
-    </div>
-
-
-
-    <div class="col-lg-5" name="standings">
-        <table class="table table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Imię gracza</th>
-                    <th scope="col">Punkty</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for person in personObjs %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}
-                    <td>{{ person.personName }}</td>
-                    <td>{{ person.points }}</td>
-                {% endfor %}
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-5" name="todays-bets">
-        <table class="table table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Data</th>
-                    {% for person in personObjs %}
-                        <th scope="col">{{ person.personName }}</th>
-                    {% endfor %}
-                    <th scope="col">Oficjalny wynik</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">{{ todaysDate }}</th>
-                    {% for person in personObjs %}
-                        {% if person.bet == bestBet %}
-                            <td name="best-bet">{{ person.bet }}</td>
-                        {% elif not person.bet == bestBet %}
-                            <td>{{ person.bet }}</td>
-                        {% endif %}
-                    {% endfor %}
-                    <td>{{ covidsToday }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <p>Wylosuj swoją mikołajkę!</p>
+        <form action="/" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Losuj</button>
+        </form>
     </div>
 </div>
     {% else %}
         <div class="col-md-6">
-        <p><h2><br>Aplikacja webowa stworzona na potrzeby pracowniczej zabawy w obstawianie różnych wydarzeń.</h2><br>
-               Zasada zabawy jest prosta. Każdy chętny i zaproszony gracz otrzymuje od administratora dane do logowania.<br>
-               Po zalogowaniu pojawia się panel dodawania typu oraz wyświetlana jest aktualna tabela wyników.<br>
-               Możliwość podawania typów w konkretnym dniu jest ograniczona czasowo. Po wyznaczonej godzinie blokowana jest opcja wysłania swojego typu.<br>
-               O konkretnej godzinie sprawdzane są równiez wyniki. Osoba będąca najbliżej wytypowanej wartości otrzymuje punkt. Punkty zliaczane są na koncie każdego <br>
-               z graczy. Tabela z typami graczy jest widoczna dla wszystkich. Poniżej jej znajduje się druga tabela, która prezentuje stan punktowy.
-        </h2></p>
+        <p><h2><br>Mikołajkowe losowanie. Zaloguj się danymi podanymi przez Karola, kliknij losuj i zacznij szukać prezentu!</h2></p>
         </div>
     {% endif %}
 </div>

@@ -1,27 +1,11 @@
 import bs4, requests
-from .models import Person
+from .models import User
 
 
-def covidCases():
-    covidResponse=requests.get("https://koronawirusunas.pl/", proxies={"http":"http://myproxy:3129"})
-    soup = bs4.BeautifulSoup(covidResponse.text, 'html.parser')
-    covidCases = soup.select('span[title="Zakażeni"]')[0].getText().replace(' ', '')
-    return covidCases
-
-def compareBets(personList, covidsToday):
-    absolute = 999999
-    for iter, p in enumerate(personList):
-        newAbsolute = abs(p.bet - int(covidsToday))
-        if newAbsolute < absolute:
-            absolute = newAbsolute
-            closestBet = p.bet
-    return closestBet
-
-
-def givePoint():
-    winner = Person.objects.filter(bet=compareBets(Person.objects.all(), covidCases()))[0]
-    winner.points = winner.points + 1
-    print(winner.points)
-    winner.save()
-    print("Sprawdzanie")
-    return
+# def givePoint():
+#     winner = User.objects.filter(bet=compareBets(User.objects.all(), covidCases()))[0]
+#     winner.points = winner.points + 1
+#     print(winner.points)
+#     winner.save()
+#     print("Sprawdzanie")
+#     return

@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Bukmacherka PV Poland</title>
+    <title>Mikołajkowe Losowanie</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'css/bet.css' %}">
@@ -11,13 +11,13 @@
 
 
         <div class="page-header">
-            <h1><a href="/">Bukmacherka PV Poland</a>
+            <h1><a href="/">Mikołajkowe Losowanie</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'logout_user' %}">
                 <button type="button" class="btn btn-info" name="login-button" style="float: right;">Logout</button>
                 </a>
                 <h4>Zalogowano jako: {{ user.username }}</h4>
-                <div class="score">Twój wynik to: {{ person.points }}</div>
+                <div class="score">Twoja mikołajka to: {{ user.wylosowany }}</div>
             {% else %}
                 <a href="{% url 'login_user' %}">
                     <button type="button" class="btn btn-info" name="login-button" style="float: right;">Login</button>

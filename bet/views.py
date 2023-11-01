@@ -1,44 +1,38 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Bet, Person
+from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from datetime import datetime
-from .functions import covidCases, compareBets
+from random import choice
 
 
 def home_page(request):
-    todaysDate = datetime.now().strftime("%d-%m-%Y")
-    personObjs = Person.objects.all()
-    currentTime = int(datetime.now().strftime("%H"))
-    if request.user.is_authenticated:
-        currentUser = request.user.username
-        currentPersonObj = Person.objects.filter(personName=currentUser)
-        person = currentPersonObj[0]
-        covidsToday = covidCases()
-        bestBet = compareBets(personObjs, covidsToday)
-        if request.method == "POST":
-            betValue = request.POST['typ']
-            person.bet = betValue
-            person.save()
-            return render(request, 'bet/homepage.html', {
-                'person': person,
-                'personObjs': personObjs,
-                'todaysDate': todaysDate,
-                'currentTime': currentTime,
-                'covidsToday': covidsToday,
-                'bestBet': bestBet,
-            })
-        else:
-            return render(request, 'bet/homepage.html', {
-                'person': person,
-                'personObjs': personObjs,
-                'todaysDate': todaysDate,
-                'currentTime': currentTime,
-                'covidsToday': covidsToday,
-                'bestBet': bestBet,
-            })
-    else:
-        return render(request, 'bet/homepage.html',)
+    if request.method == "POST":
+        currentUser = request.user
+        # Pobierz wszystkich użytkowników, którzy nie są jeszcze wylosowani
+        nie_wylosowani = User.objects.filter(czy_wylosowany=False, is_superuser=False).exclude(username=currentUser.username)
+        
+        # Jeśli nie ma użytkowników, którzy spełniają kryteria, zwróć odpowiedni komunikat
+        if not nie_wylosowani.exists():
+            messages.warning(request, 'Brak użytkowników do wylosowania')
+            return redirect("home_page")
+        if currentUser.wylosowany != None:
+            messages.warning(request, 'Już losowałeś cwaniaku!!!')
+            return redirect("home_page")
+        
+        # Wylosuj użytkownika
+        wylosowany_uzytkownik = choice(nie_wylosowani)
+        
+        # Ustaw atrybuty
+        currentUser.wylosowany = wylosowany_uzytkownik.username
+        wylosowany_uzytkownik.czy_wylosowany = True
+        
+        # Zapisz zmiany
+        wylosowany_uzytkownik.save()
+        currentUser.save()
+        messages.warning(request, 'Twoja Mikołajka to ' + currentUser.wylosowany)
+        return redirect('home_page')
+    return render(request, 'bet/homepage.html',)
 
 
 def login_user(request):

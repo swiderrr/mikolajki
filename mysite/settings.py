@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-nt3mo9b=h!d&6$jdme+qt^)el$9dp5pr*7z(xj+tunxj&y^szm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com', '192.168.0.136', '89.74.24.17']
 
 
 # Application definition
@@ -51,8 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'mysite.urls'
-
+ROOT_URLCONF = 'mysite.urls' 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -133,3 +132,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/bet/templates/login'
 LOGOUT_URL = '/bet/templates/logout'
 TEMPLATE_DIR = BASE_DIR / 'bet/templates'
+AUTH_USER_MODEL = 'bet.User' 
